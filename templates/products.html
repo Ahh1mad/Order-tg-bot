@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block content %}
+<h1>Товары</h1>
+<p><a class="btn" href="{{ url_for('product_new') }}">+ Добавить товар</a></p>
+<table>
+  <tr><th>ID</th><th>Название</th><th>Цена</th><th>Активен</th><th></th></tr>
+  {% for id, name, price, active in products %}
+  <tr>
+    <td>{{ id }}</td><td>{{ name }}</td><td>{{ '%.2f'|format(price) }}</td>
+    <td>{{ 'да' if active else 'нет' }}</td>
+    <td>
+      <a class="btn" href="{{ url_for('product_edit', pid=id) }}">Изменить</a>
+      <form method="post" action="{{ url_for('product_delete', pid=id) }}" style="display:inline"
+            onsubmit="return confirm('Удалить?')"><button class="danger">Удалить</button></form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

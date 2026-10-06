@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block content %}
+<h1>Заказы</h1>
+<table>
+  <tr><th>№</th><th>Клиент</th><th>Телефон</th><th>Статус</th><th>Сумма</th><th>Дата</th><th></th></tr>
+  {% for id, name, phone, status, total, dt in orders %}
+  <tr>
+    <td>{{ id }}</td><td>{{ name }}</td><td>{{ phone }}</td><td>{{ status }}</td>
+    <td>{{ '%.2f'|format(total) }}</td><td>{{ dt }}</td>
+    <td><a class="btn" href="{{ url_for('order_detail', oid=id) }}">Открыть</a></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7">Заказов пока нет.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

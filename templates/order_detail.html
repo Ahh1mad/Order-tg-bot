@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<h1>Заказ №{{ order.id }}</h1>
+<p><b>Клиент:</b> {{ order.full_name }} (@{{ order.username or '—' }})<br>
+<b>Телефон:</b> {{ order.phone }}<br>
+<b>Адрес:</b> {{ order.address }}<br>
+<b>Комментарий:</b> {{ order.comment or '—' }}<br>
+<b>Создан:</b> {{ order.created_at }}<br>
+<b>Сумма:</b> {{ '%.2f'|format(order.total) }}<br>
+<b>Статус:</b> {{ order.status }}</p>
+<h3>Товары</h3>
+<table>
+  <tr><th>Товар</th><th>Кол-во</th><th>Цена</th></tr>
+  {% for name, qty, price in items %}
+  <tr><td>{{ name }}</td><td>{{ qty }}</td><td>{{ '%.2f'|format(price) }}</td></tr>
+  {% endfor %}
+</table>
+<h3>Изменить статус</h3>
+<form method="post" action="{{ url_for('order_status', oid=order.id) }}" style="max-width:300px">
+  <select name="status">
+    {% for st in statuses %}<option value="{{ st }}" {{ 'selected' if st == order.status }}>{{ st }}</option>{% endfor %}
+  </select>
+  <p><button>Сохранить</button> <a href="{{ url_for('orders') }}">Назад</a></p>
+</form>
+{% endblock %}
